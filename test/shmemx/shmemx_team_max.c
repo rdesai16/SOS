@@ -29,6 +29,7 @@
 #include <shmem.h>
 #include <shmemx.h>
 
+#define NUM_TEAMS 64
 
 int main(void)
 {
@@ -52,8 +53,12 @@ int main(void)
         team_idx = (me*3)+i;
         ret = shmemx_team_split_strided(SHMEMX_TEAM_WORLD, i, 1, npes-i, NULL, 0, &new_team[team_idx]);
         if(new_team[team_idx] == SHMEMX_TEAM_INVALID && ret != 0){
-        	printf("WARNING: Max teams limit reached!!!\n");
-            printf("Try to destroy some teams...\n");
+            if(npes-i <= 0){
+                printf("WARNING: Team is not created because of invalid team size!!\n");
+            } else {
+                printf("WARNING: Max teams limit reached!!!\n");
+                printf("Try to destroy some teams...\n");
+            }
             ret = 0;
         } else {
             team_count++;
