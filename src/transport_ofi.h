@@ -1329,7 +1329,7 @@ int shmem_transport_atomic_supported(shm_internal_op_t op,
 {
 #ifdef USE_SHR_ATOMICS
     /* FIXME: Force shared memory atomics build to use software reductions */
-    return 0;
+    return 1;
 #else
     size_t size = 0;
 
